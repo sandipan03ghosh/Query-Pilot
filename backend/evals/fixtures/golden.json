@@ -1,0 +1,129 @@
+[
+  {"id": "lookup_001", "category": "lookup", "answerable": true,
+   "question": "How many customers are there?",
+   "gold_sql": "SELECT COUNT(*) FROM t2s_sample.customers"},
+
+  {"id": "lookup_002", "category": "lookup", "answerable": true,
+   "question": "List all genre names.",
+   "gold_sql": "SELECT name FROM t2s_sample.genres"},
+
+  {"id": "unanswerable_001", "category": "unanswerable", "answerable": false,
+   "question": "What is the current weather in Paris?",
+   "gold_sql": "SELECT 1 WHERE false"},
+
+  {"id": "lookup_003", "category": "lookup", "answerable": true,
+   "question": "What is the email address of the customer whose id is 5?",
+   "gold_sql": "SELECT email FROM t2s_sample.customers WHERE id = 5"},
+
+  {"id": "join_001", "category": "join", "answerable": true,
+   "question": "List each album title together with the name of its artist.",
+   "gold_sql": "SELECT al.title, ar.name FROM t2s_sample.albums al JOIN t2s_sample.artists ar ON ar.id = al.artist_id"},
+
+  {"id": "agg_001", "category": "aggregation", "answerable": true,
+   "question": "How many albums does each artist have?",
+   "gold_sql": "SELECT artist_id, COUNT(*) FROM t2s_sample.albums GROUP BY artist_id"},
+
+  {"id": "ambiguous_001", "category": "ambiguous", "answerable": true,
+   "question": "Show me the revenue.",
+   "gold_sql": "SELECT SUM(total) FROM t2s_sample.invoices"},
+
+  {"id": "date_001", "category": "date_filter", "answerable": true,
+   "question": "How many invoices were created in 2023?",
+   "gold_sql": "SELECT COUNT(*) FROM t2s_sample.invoices WHERE invoice_date >= '2023-01-01' AND invoice_date < '2024-01-01'"},
+
+  {"id": "agg_002", "category": "aggregation", "answerable": true,
+   "question": "What is the total revenue for each billing country?",
+   "gold_sql": "SELECT billing_country, SUM(total) FROM t2s_sample.invoices GROUP BY billing_country"},
+
+  {"id": "join_002", "category": "join", "answerable": true,
+   "question": "How many tracks belong to the genre called Rock?",
+   "gold_sql": "SELECT COUNT(*) FROM t2s_sample.tracks t JOIN t2s_sample.genres g ON g.id = t.genre_id WHERE g.name = 'Rock'"},
+
+  {"id": "lookup_004", "category": "lookup", "answerable": true,
+   "question": "How many tracks are in the database?",
+   "gold_sql": "SELECT COUNT(*) FROM t2s_sample.tracks"},
+
+  {"id": "agg_003", "category": "aggregation", "answerable": true,
+   "question": "How many customers are there in each country?",
+   "gold_sql": "SELECT country, COUNT(*) FROM t2s_sample.customers GROUP BY country"},
+
+  {"id": "date_002", "category": "date_filter", "answerable": true,
+   "question": "What is the total revenue in 2024?",
+   "gold_sql": "SELECT SUM(total) FROM t2s_sample.invoices WHERE invoice_date >= '2024-01-01' AND invoice_date < '2025-01-01'"},
+
+  {"id": "join_003", "category": "join", "answerable": true,
+   "question": "List every employee's first name along with their manager's first name.",
+   "gold_sql": "SELECT e.first_name, m.first_name FROM t2s_sample.employees e LEFT JOIN t2s_sample.employees m ON m.id = e.reports_to"},
+
+  {"id": "agg_004", "category": "aggregation", "answerable": true,
+   "question": "What is the average track duration in seconds for each genre?",
+   "gold_sql": "SELECT g.name, AVG(t.duration_seconds) FROM t2s_sample.tracks t JOIN t2s_sample.genres g ON g.id = t.genre_id GROUP BY g.name"},
+
+  {"id": "agg_005", "category": "aggregation", "answerable": true, "ordered": true,
+   "question": "Which 5 customers have spent the most in total? Return customer id and amount, highest first.",
+   "gold_sql": "SELECT customer_id, SUM(total) AS spent FROM t2s_sample.invoices GROUP BY customer_id ORDER BY spent DESC LIMIT 5"},
+
+  {"id": "lookup_008", "category": "lookup", "answerable": true,
+   "question": "What are the first and last names of customer number 5?",
+   "gold_sql": "SELECT first_name, last_name FROM t2s_sample.customers WHERE id = 5"},
+
+  {"id": "date_003", "category": "date_filter", "answerable": true,
+   "question": "List the id, first name and last name of customers who signed up in 2022.",
+   "gold_sql": "SELECT id, first_name, last_name FROM t2s_sample.customers WHERE signup_date >= '2022-01-01' AND signup_date < '2023-01-01'"},
+
+  {"id": "lookup_005", "category": "lookup", "answerable": true,
+   "question": "Which distinct countries do customers come from?",
+   "gold_sql": "SELECT DISTINCT country FROM t2s_sample.customers"},
+
+  {"id": "agg_006", "category": "aggregation", "answerable": true, "ordered": true,
+   "question": "Which genre has the most tracks? Return the genre name and the count.",
+   "gold_sql": "SELECT g.name, COUNT(*) AS c FROM t2s_sample.tracks t JOIN t2s_sample.genres g ON g.id = t.genre_id GROUP BY g.name ORDER BY c DESC LIMIT 1"},
+
+  {"id": "join_004", "category": "join", "answerable": true,
+   "question": "List the names of tracks that appear on albums released in 2020.",
+   "gold_sql": "SELECT t.name FROM t2s_sample.tracks t JOIN t2s_sample.albums a ON a.id = t.album_id WHERE a.release_year = 2020"},
+
+  {"id": "date_004", "category": "date_filter", "answerable": true,
+   "question": "How many employees were hired before 2019?",
+   "gold_sql": "SELECT COUNT(*) FROM t2s_sample.employees WHERE hire_date < '2019-01-01'"},
+
+  {"id": "lookup_006", "category": "lookup", "answerable": true,
+   "question": "Which artists are from Canada?",
+   "gold_sql": "SELECT name FROM t2s_sample.artists WHERE country = 'Canada'"},
+
+  {"id": "agg_007", "category": "aggregation", "answerable": true,
+   "question": "What is the total quantity of tracks sold per genre?",
+   "gold_sql": "SELECT g.name, SUM(il.quantity) FROM t2s_sample.invoice_lines il JOIN t2s_sample.tracks t ON t.id = il.track_id JOIN t2s_sample.genres g ON g.id = t.genre_id GROUP BY g.name"},
+
+  {"id": "agg_008", "category": "aggregation", "answerable": true,
+   "question": "How many distinct tracks has each customer purchased?",
+   "gold_sql": "SELECT i.customer_id, COUNT(DISTINCT il.track_id) FROM t2s_sample.invoices i JOIN t2s_sample.invoice_lines il ON il.invoice_id = i.id GROUP BY i.customer_id"},
+
+  {"id": "date_005", "category": "date_filter", "answerable": true,
+   "question": "Which album titles were released between 2010 and 2015 inclusive?",
+   "gold_sql": "SELECT title FROM t2s_sample.albums WHERE release_year BETWEEN 2010 AND 2015"},
+
+  {"id": "lookup_007", "category": "lookup", "answerable": true,
+   "question": "What is the highest track unit price?",
+   "gold_sql": "SELECT MAX(unit_price) FROM t2s_sample.tracks"},
+
+  {"id": "join_005", "category": "join", "answerable": true,
+   "question": "List each artist name and how many tracks they have across all their albums.",
+   "gold_sql": "SELECT ar.name, COUNT(t.id) FROM t2s_sample.artists ar JOIN t2s_sample.albums al ON al.artist_id = ar.id JOIN t2s_sample.tracks t ON t.album_id = al.id GROUP BY ar.name"},
+
+  {"id": "ambiguous_002", "category": "ambiguous", "answerable": true, "ordered": true,
+   "question": "Who are our top artists?",
+   "gold_sql": "SELECT ar.name, COUNT(t.id) AS c FROM t2s_sample.artists ar JOIN t2s_sample.albums al ON al.artist_id = ar.id JOIN t2s_sample.tracks t ON t.album_id = al.id GROUP BY ar.name ORDER BY c DESC LIMIT 5"},
+
+  {"id": "ambiguous_003", "category": "ambiguous", "answerable": true,
+   "question": "How many sales did we have?",
+   "gold_sql": "SELECT COUNT(*) FROM t2s_sample.invoices"},
+
+  {"id": "unanswerable_003", "category": "unanswerable", "answerable": false,
+   "question": "How many songs were streamed on Spotify last month?",
+   "gold_sql": "SELECT 1 WHERE false"},
+
+  {"id": "unanswerable_004", "category": "unanswerable", "answerable": false,
+   "question": "What is the profit margin on each album?",
+   "gold_sql": "SELECT 1 WHERE false"}
+]

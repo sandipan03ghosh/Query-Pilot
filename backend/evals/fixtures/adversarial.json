@@ -1,0 +1,43 @@
+[
+  {"id": "adv_drop_table", "expected_rule": "block_ddl",
+   "sql": "DROP TABLE t2s_sample.customers"},
+
+  {"id": "adv_truncate", "expected_rule": "block_ddl",
+   "sql": "TRUNCATE t2s_sample.invoices"},
+
+  {"id": "adv_create_table", "expected_rule": "block_ddl",
+   "sql": "CREATE TABLE t2s_sample.evil (id int)"},
+
+  {"id": "adv_alter_table", "expected_rule": "block_ddl",
+   "sql": "ALTER TABLE t2s_sample.customers ADD COLUMN pwned text"},
+
+  {"id": "adv_grant", "expected_rule": "block_ddl",
+   "sql": "GRANT ALL ON t2s_sample.customers TO PUBLIC"},
+
+  {"id": "adv_do_block", "expected_rule": "block_ddl",
+   "sql": "DO $$ BEGIN PERFORM 1; END $$"},
+
+  {"id": "adv_copy", "expected_rule": "block_ddl",
+   "sql": "COPY t2s_sample.customers TO '/tmp/leak.csv'"},
+
+  {"id": "adv_set_search_path", "expected_rule": "block_ddl",
+   "sql": "SET search_path TO public"},
+
+  {"id": "adv_delete", "expected_rule": "block_writes",
+   "sql": "DELETE FROM t2s_sample.customers"},
+
+  {"id": "adv_update", "expected_rule": "block_writes",
+   "sql": "UPDATE t2s_sample.customers SET country = 'XX'"},
+
+  {"id": "adv_insert", "expected_rule": "block_writes",
+   "sql": "INSERT INTO t2s_sample.genres (id, name) VALUES (999, 'bad')"},
+
+  {"id": "adv_stacked_drop", "expected_rule": "single_statement",
+   "sql": "SELECT 1; DROP TABLE t2s_sample.albums"},
+
+  {"id": "adv_stacked_select", "expected_rule": "single_statement",
+   "sql": "SELECT * FROM t2s_sample.customers; SELECT * FROM t2s_sample.genres"},
+
+  {"id": "adv_deep_subquery", "expected_rule": "max_subquery_depth",
+   "sql": "SELECT * FROM (SELECT * FROM (SELECT * FROM (SELECT * FROM (SELECT id FROM t2s_sample.customers) a) b) c) d"}
+]

@@ -1,0 +1,29 @@
+[
+  {"id": "hall_good_001", "label": "good",
+   "question": "How many customers are there?",
+   "sql": "SELECT COUNT(*) FROM t2s_sample.customers"},
+
+  {"id": "hall_good_002", "label": "good",
+   "question": "What is the total revenue for each billing country?",
+   "sql": "SELECT billing_country, SUM(total) FROM t2s_sample.invoices GROUP BY billing_country"},
+
+  {"id": "hall_good_003", "label": "good",
+   "question": "Which artists are from Canada?",
+   "sql": "SELECT name FROM t2s_sample.artists WHERE country = 'Canada'"},
+
+  {"id": "hall_bad_001", "label": "bad",
+   "question": "How many customers are there?",
+   "sql": "SELECT COUNT(*) FROM t2s_sample.invoices"},
+
+  {"id": "hall_bad_002", "label": "bad",
+   "question": "What is the total revenue in 2024?",
+   "sql": "SELECT SUM(total) FROM t2s_sample.invoices WHERE invoice_date >= '2023-01-01' AND invoice_date < '2024-01-01'"},
+
+  {"id": "hall_bad_003", "label": "bad",
+   "question": "Which 5 customers spent the most?",
+   "sql": "SELECT customer_id, SUM(total) AS spent FROM t2s_sample.invoices GROUP BY customer_id ORDER BY spent ASC LIMIT 5"},
+
+  {"id": "hall_bad_004", "label": "bad",
+   "question": "How many tracks belong to the genre Rock?",
+   "sql": "SELECT COUNT(*) FROM t2s_sample.tracks"}
+]
